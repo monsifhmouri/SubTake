@@ -143,7 +143,7 @@ Colorful, detailed output in terminal:
 ## 👑 **Author**
 
 > Developed by **Mr. Monsif**
-> Contact: [github.com/mrmonsif](https://github.com/mrmonsif)
+> Contact: [github.com/mrmonsif](http://t.me/monstr_m1nd)
 
 ---
 
