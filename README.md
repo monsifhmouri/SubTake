@@ -1,6 +1,6 @@
 # SubTake v9.10 Subdomain Takeover Scanner
 
-#### Developed by [Mr. Monsif](https://github.com/mrmonsif) | Elite Edition
+#### Developed by [Mr. Monsif](http://t.me/monstr_m1nd) | Elite Edition
 
 ---
 
@@ -39,7 +39,6 @@ It offers detailed output, supports massive wordlists, and rivals (or surpasses)
 
    ```bash
    go version
-````
 
 If not, install Go:
 
@@ -167,3 +166,9 @@ If you find a bug, want to suggest a new feature, or contribute:
 
 **Ready for copy-paste into your GitHub!
 If you want to add your email or a sponsor/donation badge, let me know and I'll add it instantly.**
+
+```
+
+---
+
+```
