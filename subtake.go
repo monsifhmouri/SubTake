@@ -18,7 +18,6 @@ import (
     "github.com/valyala/fasthttp"
 )
 
-// Configuration structure
 type Config struct {
     Threads           int      `json:"threads"`
     Timeout           int      `json:"timeout"`
@@ -30,7 +29,6 @@ type Config struct {
     CustomSignatures  []string `json:"custom_signatures"`
 }
 
-// Result structure
 type Result struct {
     Subdomain    string `json:"subdomain"`
     CNAME        string `json:"cname"`
@@ -42,7 +40,6 @@ type Result struct {
     ResponseTime int64  `json:"response_time"`
 }
 
-// Service signatures
 type ServiceSignature struct {
     Service     string   `json:"service"`
     CNAMES      []string `json:"cnames"`
@@ -68,7 +65,7 @@ var (
 )
 
 func init() {
-    // Default configuration
+    
     config = Config{
         Threads:         50,
         Timeout:         10,
@@ -79,7 +76,7 @@ func init() {
         OutputFile:      "",
     }
 
-    // Initialize HTTP clients
+    
     client = &fasthttp.Client{
         ReadTimeout:                   time.Duration(config.Timeout) * time.Second,
         WriteTimeout:                  time.Duration(config.Timeout) * time.Second,
@@ -99,7 +96,7 @@ func init() {
 }
 
 func loadSignatures() {
-    // Comprehensive service signatures
+    
     signatures = []ServiceSignature{
         {
             Service:    "AWS S3",
@@ -433,17 +430,17 @@ func main() {
     flag.BoolVar(&jsonOutput, "json", false, "Output in JSON format")
     flag.Parse()
 
-    // Update configuration
+    
     config.Threads = threads
     config.Timeout = timeout
     config.VerifySSL = verifySSL
     config.DeepCheck = deepCheck
     config.OutputFile = outputFile
 
-    // Banner
+    
     printBanner()
 
-    // Validate input
+    
     if targetFile == "" && singleTarget == "" {
         color.Red("[-] Error: Please provide either a file with -f or a single target with -d")
         flag.Usage()
@@ -452,7 +449,7 @@ func main() {
 
     var targets []string
 
-    // Read targets from file or single target
+    
     if targetFile != "" {
         targets = readTargetsFromFile(targetFile)
         color.Cyan("[+] Loaded %d targets from file: %s", len(targets), targetFile)
@@ -466,13 +463,13 @@ func main() {
     color.Cyan("[+] Deep Check: %v", config.DeepCheck)
     color.Cyan("[+] SSL Verification: %v", config.VerifySSL)
 
-    // Process targets
+    
     processTargets(targets, verbose)
 
-    // Print results
+    
     printResults(jsonOutput)
 
-    // Save results if output file specified
+    
     if outputFile != "" {
         saveResults(outputFile, jsonOutput)
     }
@@ -541,7 +538,7 @@ func checkSubdomain(subdomain string) Result {
         Status:    "safe",
     }
 
-    // Step 1: CNAME lookup
+    
     cname, err := net.LookupCNAME(subdomain)
     if err != nil {
         return result
@@ -549,19 +546,19 @@ func checkSubdomain(subdomain string) Result {
 
     result.CNAME = cname
 
-    // Step 2: IP lookup
+    
     ips, err := net.LookupIP(subdomain)
     if err == nil && len(ips) > 0 {
         result.IP = ips[0].String()
     }
 
-    // Step 3: Check against service signatures
+    
     for _, signature := range signatures {
         if matchesCNAME(cname, signature.CNAMES) {
             result.Service = signature.Service
             result.Confidence = signature.Confidence
 
-            // Step 4: HTTP verification for deep check
+            
             if config.DeepCheck {
                 if verifyWithHTTP(subdomain, signature, &result) {
                     result.Status = "vulnerable"
@@ -614,12 +611,12 @@ func verifyWithHTTP(subdomain string, signature ServiceSignature, result *Result
         body := string(resp.Body())
         statusCode := resp.StatusCode()
 
-        // Check status code
+        
         if signature.StatusCode != 0 && statusCode == signature.StatusCode {
             result.Evidence = fmt.Sprintf("Status: %d", statusCode)
         }
 
-        // Check body content
+        
         if signature.BodyMatch != "" {
             matched, _ := regexp.MatchString(signature.BodyMatch, body)
             if matched {
@@ -628,7 +625,7 @@ func verifyWithHTTP(subdomain string, signature ServiceSignature, result *Result
             }
         }
 
-        // Check headers
+        
         if signature.HeaderMatch != "" {
             headers := make(map[string]string)
             resp.Header.VisitAll(func(key, value []byte) {
@@ -643,7 +640,7 @@ func verifyWithHTTP(subdomain string, signature ServiceSignature, result *Result
             }
         }
 
-        // If we have status code match and no specific body/header requirements
+        
         if signature.StatusCode != 0 && statusCode == signature.StatusCode && signature.BodyMatch == "" {
             return true
         }
