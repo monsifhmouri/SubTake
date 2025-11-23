@@ -49,7 +49,7 @@ sudo apt update && sudo apt install golang-go -y
 2. **Clone this repo or copy the files:**
 
    ```bash
-   git clone https://github.com/USERNAME/SubTake.git
+   git clone https://github.com/monsifhmouri/SubTake.git
    cd SubTake
    ```
 
