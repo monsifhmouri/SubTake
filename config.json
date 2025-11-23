@@ -1,0 +1,10 @@
+{
+    "threads": 50,
+    "timeout": 10,
+    "user_agent": "SubTake/v2.0",
+    "follow_redirects": true,
+    "verify_ssl": false,
+    "deep_check": true,
+    "output_file": "results.txt",
+    "custom_signatures": []
+}

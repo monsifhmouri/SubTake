@@ -1,139 +1,169 @@
-# SubMonsif - Subdomain Engine 🚀
+# SubTake v9.10 Subdomain Takeover Scanner
 
-![banner](https://img.shields.io/badge/Subdomain--Finder-Made%20By%20MrMonsif-orange)
-
-## Overview
-
-**SubMonsif** is a powerful and advanced subdomain enumeration tool written in Go. It supports active and passive subdomain discovery from multiple real sources and can use bruteforce with customizable wordlists.
-Ideal for bug bounty, penetration testing, and recon workflows.
+#### Developed by [Mr. Monsif](https://github.com/mrmonsif) | Elite Edition
 
 ---
 
-## Features
+## 🚀 **Overview**
 
-* Fast, multi-threaded subdomain enumeration
-* Uses real public APIs: **crt.sh, HackerTarget, VirusTotal, OTX, Shodan**
-* Supports bruteforce discovery
-* Removes duplicate results automatically
-* Custom wordlist support
-* Works on **Linux** and **Windows**
+**SubTake** is a modern, advanced, and open-source subdomain takeover scanner written in Go, developed from scratch by **Mr. Monsif**.  
+The tool is designed for maximum speed, precision, and flexibility, suitable for bug bounty hunters, security researchers, and anyone who needs reliable subdomain takeover reports.  
+It offers detailed output, supports massive wordlists, and rivals (or surpasses) many of the world's top open-source alternatives.
 
 ---
 
-## Installation
+## 🌟 **Key Features**
 
-### Requirements
+* **High-speed, multi-threaded scanning** (you choose the number of threads)
+* **35+ major cloud & SaaS takeover fingerprints** (GitHub Pages, Heroku, S3, Netlify, Azure, and more)
+* **Deep HTTP/Body/Header analysis with accurate fingerprint matching**
+* **Realistic output:** vulnerable / potential / safe, with confidence level for each result
+* **Colorful terminal UI and support for CSV/JSON export**
+* **Customizable scan options (deep check, SSL verification, etc)**
+* **Supports scanning a single target or huge target lists**
+* **Clean, well-structured code – easy to extend or modify**
 
-* [Go](https://go.dev/doc/install) 1.18+
-* Git (for cloning repo)
+---
 
-### Build (Linux/MacOS)
+## ⚡ **Requirements**
+
+* **Go 1.19+** (tested on Go 1.19, 1.20, 1.21)
+* **Stable Internet connection**
+* **Supported OS:** Linux, WSL, Windows, or macOS
+
+---
+
+## 🛠️ **Installation**
+
+1. **Check that Go is installed:**
+
+   ```bash
+   go version
+````
+
+If not, install Go:
 
 ```bash
-git clone https://github.com/monsifhmouri/SubMonsif.git
-cd SubMonsif
-go build -o SubMonsif main.go
-chmod +x SubMonsif
+sudo apt update && sudo apt install golang-go -y
 ```
 
-### Build (Windows)
+2. **Clone this repo or copy the files:**
 
-```cmd
-git clone https://github.com/monsifhmouri/SubMonsif.git
-cd SubMonsif
-go build -o SubMonsif.exe main.go
-```
+   ```bash
+   git clone https://github.com/USERNAME/SubTake.git
+   cd SubTake
+   ```
+
+3. **Auto-install (recommended):**
+
+   ```bash
+   chmod +x install.sh
+   ./install.sh
+   ```
+
+   Or build manually:
+
+   ```bash
+   go mod tidy
+   go build -o subtake subtake.go
+   ```
 
 ---
 
-## Usage
+## 📦 **Project Structure**
 
-### Linux
+* `subtake.go` – main tool source code
+* `install.sh` – automated build/install script
+* `go.mod` / `go.sum` – Go modules/dependencies
+* `config.json` – (optional) example config file
+* `targets.txt` – example targets wordlist
+
+---
+
+## 🔥 **Usage**
+
+### **Scan a list of subdomains:**
 
 ```bash
-./SubMonsif -d example.com -t 100 -brute -v
-./SubMonsif -dl domains.txt -t 200 -o results.txt
+./subtake -f targets.txt -o results.txt -t 50 -v
 ```
 
-### Windows
-
-```cmd
-SubMonsif.exe -d example.com -t 100 -brute -v
-SubMonsif.exe -dl domains.txt -t 200 -o results.txt
-```
-
-### Options
-
-| Flag     | Description                     |
-| -------- | ------------------------------- |
-| `-d`     | Target domain (example.com)     |
-| `-dl`    | File with list of domains       |
-| `-t`     | Number of threads (default 100) |
-| `-brute` | Enable bruteforce mode          |
-| `-v`     | Verbose mode                    |
-| `-o`     | Output file for results         |
+* `-f` : input file with subdomains (one per line)
+* `-o` : output file (CSV or JSON)
+* `-t` : number of threads (default: 50)
+* `-v` : verbose output
 
 ---
 
-## Supported Passive Sources
+### **Scan a single subdomain:**
 
-* [crt.sh](https://crt.sh/)
-* [HackerTarget](https://hackertarget.com/)
-* [VirusTotal](https://www.virustotal.com/)
-* [AlienVault OTX](https://otx.alienvault.com/)
-* [Shodan](https://www.shodan.io/)
-
----
-
-## How to Get Your API Keys
-
-Some sources require free registration to use their APIs.
-You **must** put your API keys directly in the correct functions in `providers/passive.go`:
-
-| Source     | Register & Get Key                                                               | Where to put the key in code         |
-| ---------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| VirusTotal | [https://www.virustotal.com/gui/join-us](https://www.virustotal.com/gui/join-us) | Replace value in `getFromVirusTotal` |
-| OTX        | [https://otx.alienvault.com/api/](https://otx.alienvault.com/api/)               | Replace value in `getFromOTX`        |
-| Shodan     | [https://account.shodan.io/register](https://account.shodan.io/register)         | Replace value in `getFromShodan`     |
-
-**Edit `providers/passive.go`:**
-Replace the placeholder `apiKey := "............."` with your actual key in each relevant function:
-
-```go
-// Example:
-apiKey := "YOUR_VIRUSTOTAL_API_KEY"
-// and the same for OTX and Shodan
+```bash
+./subtake -d sub.example.com
 ```
 
 ---
 
-## Example (Output)
+### **Export results as JSON:**
 
-```
-[Brute] Found: www.target.com
-[+] Found: api.target.com
-...
-[+] Found 5523 subdomains
+```bash
+./subtake -f targets.txt -json -o results.json
 ```
 
 ---
 
-## Credits
+### **Additional options:**
 
-* Author: [MrMonsif](https://github.com/monsifhmouri)
-* Inspired by subfinder and other recon tools
-
----
-
-## Warning
-
-**Never commit or push your API keys to any public repository!**
-If you plan to share or publish your code on GitHub, remove or replace all API keys before pushing.
+* `-ssl` : enable SSL verification (default: false)
+* `-deep` : enable deep check (analyze response body/header for every service)
 
 ---
 
-## License
+## 🖥️ **Sample Output**
 
-MIT License
+Colorful, detailed output in terminal:
 
+```
+[VULNERABLE] abandonedrepo.github.io -> abandonedrepo.github.io. (GitHub Pages) [high] Status: 404 | Body match
+[VULNERABLE] deadapp.herokuapp.com -> va04.ingress.herokuapp.com. (Heroku) [high] Status: 404 | Body match
+[+] Scan completed!
+[+] Vulnerable: 16
+[+] Safe: 81
+[+] Results saved to: results.txt
+```
 
+<p align="center">
+  <img src="pictur.png" alt="SubTake Screenshot 1" width="80%">
+</p>
+
+<p align="center">
+  <img src="sub.png" alt="SubTake Screenshot 2" width="80%">
+</p>
+
+---
+
+## 👑 **Author**
+
+> Developed by **Mr. Monsif**
+> Contact: [github.com/mrmonsif](https://github.com/mrmonsif)
+
+---
+
+## ⚠️ **Legal Notice**
+
+This tool is for educational and authorized security testing only.
+**Do not scan or test targets without explicit permission.**
+Use at your own risk.
+
+---
+
+## 🌐 **Support & Contributions**
+
+If you find a bug, want to suggest a new feature, or contribute:
+
+* Open an issue or pull request on GitHub
+* Or contact the developer directly
+
+---
+
+**Ready for copy-paste into your GitHub!
+If you want to add your email or a sponsor/donation badge, let me know and I'll add it instantly.**
