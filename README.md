@@ -140,35 +140,7 @@ Colorful, detailed output in terminal:
 
 ---
 
-## 👑 **Author**
+##  **Author**
 
 > Developed by **Mr. Monsif**
-> Contact: [github.com/mrmonsif](http://t.me/monstr_m1nd)
-
----
-
-## ⚠️ **Legal Notice**
-
-This tool is for educational and authorized security testing only.
-**Do not scan or test targets without explicit permission.**
-Use at your own risk.
-
----
-
-## 🌐 **Support & Contributions**
-
-If you find a bug, want to suggest a new feature, or contribute:
-
-* Open an issue or pull request on GitHub
-* Or contact the developer directly
-
----
-
-**Ready for copy-paste into your GitHub!
-If you want to add your email or a sponsor/donation badge, let me know and I'll add it instantly.**
-
-```
-
----
-
-```
+> Contact: [telegram](http://t.me/monstr_m1nd)
